@@ -90,6 +90,38 @@
 </main>
 
 <script>
+  // Anyone who used the app on this host still has its service worker
+  // registered here (layout.tsx registers /sw.js on every load). That worker
+  // is network-first, so it normally lets this page through -- but its catch
+  // branch serves the CACHED OLD APP, which would show a stale Marffet
+  // instead of this notice the moment a request is slow or fails. Tear it
+  // down on arrival. Guarded by a sessionStorage flag so a failed unregister
+  // can never turn into a reload loop.
+  (function () {
+    if (!("serviceWorker" in navigator)) return;
+    var RELOADED = "marffet-moved-sw-cleared";
+    navigator.serviceWorker.getRegistrations().then(function (regs) {
+      if (!regs.length) return;
+      return Promise.all(regs.map(function (r) { return r.unregister(); }))
+        .then(function () {
+          if (!window.caches) return;
+          return caches.keys().then(function (keys) {
+            return Promise.all(keys.map(function (k) { return caches.delete(k); }));
+          });
+        })
+        .then(function () {
+          if (!navigator.serviceWorker.controller) return;
+          try {
+            if (sessionStorage.getItem(RELOADED)) return;
+            sessionStorage.setItem(RELOADED, "1");
+          } catch (e) { return; }
+          location.reload();
+        });
+    }).catch(function () { /* nothing to clean up */ });
+  })();
+</script>
+
+<script>
   // Preserve the path a visitor arrived on, so an old bookmark such as /etf
   // lands on the same page at the new host. Degrades to the root link.
   (function () {
