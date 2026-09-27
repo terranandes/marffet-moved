@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marffet 已搬遷 / We've moved</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Marffet has moved to https://marffet.zeabur.app">
+<link rel="icon" href="data:,">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f6f7f9;
+    --card: #ffffff;
+    --fg: #16181d;
+    --muted: #61656e;
+    --line: #e3e5ea;
+    --accent: #1b6ef3;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0e1014;
+      --card: #171a20;
+      --fg: #f0f1f3;
+      --muted: #9aa0ab;
+      --line: #262a32;
+      --accent: #5b9dff;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: var(--bg);
+    color: var(--fg);
+    font: 16px/1.65 system-ui, -apple-system, "Segoe UI", "Noto Sans TC",
+          "Microsoft JhengHei", Roboto, Helvetica, Arial, sans-serif;
+  }
+  main {
+    width: 100%;
+    max-width: 480px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 32px 28px;
+    text-align: center;
+  }
+  .mark { font-size: 15px; font-weight: 600; letter-spacing: .02em; color: var(--muted); }
+  h1 { margin: 14px 0 6px; font-size: 24px; line-height: 1.3; }
+  h2 { margin: 0 0 22px; font-size: 16px; font-weight: 500; color: var(--muted); }
+  a.go {
+    display: inline-block;
+    padding: 12px 22px;
+    border-radius: 9px;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+    word-break: break-all;
+  }
+  a.go:hover { filter: brightness(1.08); }
+  .note { margin: 22px 0 0; font-size: 13.5px; color: var(--muted); }
+  hr { border: 0; border-top: 1px solid var(--line); margin: 22px 0 0; }
+  .en { margin-top: 18px; font-size: 14px; color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <p class="mark">MARFFET</p>
+
+  <h1>我們已搬遷到新網址</h1>
+  <h2>This site has moved to a new address</h2>
+
+  <p><a class="go" id="go" href="https://marffet.zeabur.app">marffet.zeabur.app</a></p>
+
+  <p class="note">
+    請更新您的書籤。舊網址 <code>marffet-app.zeabur.app</code> 已不再提供服務。
+  </p>
+
+  <hr>
+  <p class="en">
+    Please update your bookmarks — <code>marffet-app.zeabur.app</code> is no longer served.
+  </p>
+</main>
+
+<script>
+  // Preserve the path a visitor arrived on, so an old bookmark such as /etf
+  // lands on the same page at the new host. Degrades to the root link.
+  (function () {
+    try {
+      var p = location.pathname + location.search + location.hash;
+      if (p && p !== "/") {
+        document.getElementById("go").href = "https://marffet.zeabur.app" + p;
+      }
+    } catch (e) { /* keep the static href */ }
+  })();
+</script>
+</body>
+</html>
